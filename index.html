@@ -46,7 +46,7 @@ mapboxgl.accessToken = 'pk.eyJ1IjoiY2NhbnRleSIsImEiOiJjaW01MGpwdDcwMWppdWZtNnoxc
 var simple = {
   "version": 8,
   "name": 'Mapzen-OSM',
-  "glyphs": "mapbox://fontstack/{fontstack}/{range}.pbf",
+  "glyphs": "mapbox://fonts/ccantey/{fontstack}/{range}.pbf",
   "sources": {
     "osm": {
       "type": "vector",
@@ -149,7 +149,6 @@ var simple = {
       "filter": ["==", "type", "country"],
       // "maxzoom": 3, //"max-zoom depreciated" - disable for countries
       "layout": {
-        "visibility":"visible",
         "line-cap": "round",
         "line-join": "round"
       },
@@ -162,17 +161,21 @@ var simple = {
     {
       "id": "state-boundary",
       "source": "osm",
-      "source-layer": "boundaries",
-      "type": "fill",
+      "source-layer": "boundaries", 
+      "type": "line", //all boundaries should be line, not fill
       "filter": ["==", "type", "state"],
       "minzoom": 2.75,
+      // "maxzoom":17,
       "layout": {
-        // "line-cap": "round",
-        // "line-join": "round"
+        "line-cap": "round", //line-cap/join are not available to fill property
+        "line-join": "round"
       },
       "paint": {
-        "fill-color": "#ededed",
-        "fill-outline-color": "#cacecc"
+        "line-color": "#cacecc",
+        "line-width": {
+          "base": 1,
+           "stops": [[5, 1], [7, 5]]
+         }
       }
     }, 
 
@@ -233,7 +236,7 @@ var simple = {
       "line-color": "#c0c4c2",
       "line-width": {
           "base": 1.55,
-          "stops": [[4, 0.25], [20, 30]]
+          "stops": [[3, 0.25], [20, 30]]
         }
     }
   }, 
@@ -315,9 +318,9 @@ var simple = {
         "text-max-width": 14,
         "text-letter-spacing": 0.1,
         "text-anchor": "top",
-        "text-size": {
-          "stops": [[2, 28], [6, 32]]
-        }
+        // "text-size": {
+        //   "stops": [[2, 28], [6, 32]]
+        // }
       },
     "paint": {
       "text-color": "#ededed",

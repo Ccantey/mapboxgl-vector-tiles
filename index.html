@@ -147,7 +147,7 @@ var simple = {
       "source-layer": "boundaries",
       "type": "line",
       "filter": ["==", "type", "country"],
-      "maxzoom": 4, //"max-zoom depreciated"
+      // "maxzoom": 3, //"max-zoom depreciated" - disable for countries
       "layout": {
         "visibility":"visible",
         "line-cap": "round",
@@ -165,7 +165,7 @@ var simple = {
       "source-layer": "boundaries",
       "type": "fill",
       "filter": ["==", "type", "state"],
-      "maxzoom": 10,
+      "minzoom": 2.75,
       "layout": {
         // "line-cap": "round",
         // "line-join": "round"

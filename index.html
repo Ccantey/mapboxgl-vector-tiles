@@ -45,7 +45,7 @@ mapboxgl.accessToken = 'pk.eyJ1IjoiY2NhbnRleSIsImEiOiJjaW01MGpwdDcwMWppdWZtNnoxc
 
 var simple = {
   "version": 8,
-  "name": 'Mapzen-OSM',
+  "name": 'DistrictFinder-webGL',
   "glyphs": "mapbox://fonts/ccantey/{fontstack}/{range}.pbf",
   "sources": {
     "osm": {
@@ -165,7 +165,7 @@ var simple = {
       "type": "line", //all boundaries should be line, not fill
       "filter": ["==", "type", "state"],
       "minzoom": 2.75,
-      // "maxzoom":17,
+      "maxzoom":17,
       "layout": {
         "line-cap": "round", //line-cap/join are not available to fill property
         "line-join": "round"
@@ -174,7 +174,7 @@ var simple = {
         "line-color": "#cacecc",
         "line-width": {
           "base": 1,
-           "stops": [[5, 1], [7, 5]]
+           "stops": [[5, 1], [7, 3]] //Why does layer disappear at zoom 8.5?
          }
       }
     }, 
@@ -303,14 +303,15 @@ var simple = {
     }
   }, 
 
+
   {
     "id": "ocean-label",
     "source": "osm",
-    "source-layer": "places",
+    "source-layer": "water",
     "type": "symbol",
     // "minzoom": 2,
     // "maxzoom": 6,
-    "filter": ["==", "kind", "ocean"],
+    "filter": ["all", ["==", "$type", "Point"], ["==", "kind", "sea"],["==","kind", "ocean"]],
     "layout": {
         "text-field": "{name}",
         "text-font": ["Open Sans Italic", "Arial Unicode MS Regular"],
@@ -334,14 +335,14 @@ var simple = {
       "source": "osm",
       "source-layer": "places",
       "filter": ["all", ["==", "$type", "Point"], ["==", "kind", "neighbourhood"],["==","kind", "hamlet"] , ["==","kind","suburb"]],
-      // "minzoom": 12,
+      "minzoom": 12,
       "type": "symbol",
       "layout": {
-        "text-field": "name",
+        "text-field": "{name}",
         "text-font": ["Open Sans Semibold", "Arial Unicode MS Bold"],
-        "text-size": {
-          "stops": [[12, 14], [20, 21]]
-        },
+        // "text-size": {
+        //   "stops": [[12, 14], [20, 21]]
+        // },
         // "text-max-width": 10
       },
       "paint": {
@@ -349,7 +350,7 @@ var simple = {
         "text-halo-color": "rgba(255,255,255,0.5)",
         
       }
-    }, 
+    },
 
     {
       "id": "city-label",
@@ -357,17 +358,16 @@ var simple = {
       "type":"symbol",
       "source-layer": "places",
       "filter": ["all", ["==", "$type", "Point"], ["==", "kind", "city"],["==","kind", "county"],["==","kind","district"]],
-      "minzoom": 10,
-      "maxzoom": 14,
-      "type": "symbol",
+      // "minzoom": 10,
+      // "maxzoom": 14,
       "layout": {
         "text-field": "{name}",
         "text-font": ["Open Sans Semibold", "Arial Unicode MS Bold"],
-        "text-size": {
-          "stops": [[8, 14], [12, 21]]
-        },
-        "text-max-width": 10,
-        "text-letter-spacing": 0.1
+        // "text-size": {
+        //   "stops": [[8, 14], [12, 21]]
+        // },
+        // "text-max-width": 10,
+        // "text-letter-spacing": 0.1
       },
       "paint": {
         "text-color": "#384646",
@@ -381,8 +381,8 @@ var simple = {
       "source": "osm",
       "source-layer": "places",
       "filter": ["all", ["==", "$type", "Point"], ["==", "kind", "state"]],
-      "minzoom": 6,
-      "maxzoom": 12,
+      "minzoom": 2.75,
+
       "type": "symbol",
       "layout": {
         "text-field": "{name}",
@@ -430,7 +430,7 @@ var simple = {
 var map = new mapboxgl.Map({
   container: 'map',
   style: simple,
-  zoom: 15,
+  zoom: 7.55,
   center:[-77.0351,38.9075]
 });
 map.addControl(new mapboxgl.Navigation());
